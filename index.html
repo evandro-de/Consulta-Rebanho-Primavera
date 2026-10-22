@@ -1532,17 +1532,19 @@
 
   function updateHeaderMeta() {
     var total = 0;
-    var pst100 = 0;
+    var prf1 = 0, prf2 = 0;
     for (var k in DB_ANIMAIS) if (DB_ANIMAIS.hasOwnProperty(k)) {
       var arr = DB_ANIMAIS[k];
       total += arr.length;
       for (var i = 0; i < arr.length; i++) {
-        if ((arr[i].local_atual || '').trim().toUpperCase() === 'PST-100') pst100++;
+        var locAtual = (arr[i].local_atual || '').trim().toUpperCase();
+        if (locAtual === 'PRF-1') prf1++;
+        else if (locAtual === 'PRF-2') prf2++;
       }
     }
-    herdCountEl.textContent = (total - pst100).toLocaleString('pt-BR');
+    herdCountEl.textContent = (total - prf1 - prf2).toLocaleString('pt-BR');
     herdCountLabel.textContent = 'animais ativos';
-    pst100CountLine.textContent = 'PST-100: ' + pst100.toLocaleString('pt-BR') + ' animais';
+    pst100CountLine.textContent = 'PRF-1: ' + prf1.toLocaleString('pt-BR') + ' animais · PRF-2: ' + prf2.toLocaleString('pt-BR') + ' animais';
 
     var newestDate = new Date(Math.max(META.animais.date.getTime(), META.sanidade.date.getTime()));
     var today = todayMidnight();
